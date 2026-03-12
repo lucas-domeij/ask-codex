@@ -18,25 +18,25 @@ Get Codex to validate and critique: $ARGUMENTS
 2. **Run Codex non-interactively** using `codex exec` with full permissions:
 
 ```bash
-codex exec --dangerously-bypass-approvals-and-sandbox-o /tmp/codex-output.md "YOUR PROMPT HERE"
+codex exec --dangerously-bypass-approvals-and-sandbox -o /tmp/codex-output.md "YOUR PROMPT HERE"
 ```
 
 ### For validating PR comments or review notes:
 
 ```bash
-codex exec --dangerously-bypass-approvals-and-sandbox-o /tmp/codex-output.md "You are an independent code reviewer. Read the file FILEPATH and the source files it references. For each comment, verify the technical claims against the actual code - check line references, check assumptions, confirm behavior. Give a verdict for each: VALID, PARTIALLY VALID, or INVALID with a brief explanation. End with a summary table."
+codex exec --dangerously-bypass-approvals-and-sandbox -o /tmp/codex-output.md "You are an independent code reviewer. Read the file FILEPATH and the source files it references. For each comment, verify the technical claims against the actual code - check line references, check assumptions, confirm behavior. Give a verdict for each: VALID, PARTIALLY VALID, or INVALID with a brief explanation. End with a summary table."
 ```
 
 ### For reviewing code changes:
 
 ```bash
-codex exec --dangerously-bypass-approvals-and-sandbox-o /tmp/codex-output.md "Review the current git diff. Check for bugs, edge cases, missed issues, and whether the code does what it claims. Be critical and specific."
+codex exec --dangerously-bypass-approvals-and-sandbox -o /tmp/codex-output.md "Review the current git diff. Check for bugs, edge cases, missed issues, and whether the code does what it claims. Be critical and specific."
 ```
 
 ### For validating technical decisions:
 
 ```bash
-codex exec --dangerously-bypass-approvals-and-sandbox-o /tmp/codex-output.md "Read FILEPATH and evaluate the technical approach. Is the reasoning sound? Are there better alternatives? What are the tradeoffs? What could go wrong?"
+codex exec --dangerously-bypass-approvals-and-sandbox -o /tmp/codex-output.md "Read FILEPATH and evaluate the technical approach. Is the reasoning sound? Are there better alternatives? What are the tradeoffs? What could go wrong?"
 ```
 
 ## Options
