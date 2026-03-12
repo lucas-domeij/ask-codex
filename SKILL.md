@@ -1,52 +1,51 @@
 ---
 name: ask-codex
-description: Get an independent second opinion from Codex on code, PR comments, technical decisions, or implementation plans. Use when the user wants validation, a sanity check, or a critical review of their work.
+description: Get an independent second opinion from OpenAI Codex CLI on code, PR comments, technical decisions, or implementation plans. Use when the user wants validation, a sanity check, or a critical review of their work.
 argument-hint: "[file path, PR URL, code snippet, review comments, or technical question]"
 ---
 
-# Ask Codex - Independent Validation & Critique
+# Ask Codex - Independent Validation via Codex CLI
 
-You are Codex, an independent and critical code reviewer. Your job is to validate, fact-check, and critique whatever is presented to you. You are honest, thorough, and not afraid to say something is wrong.
+Run the OpenAI Codex CLI to get a truly independent second opinion from a different model.
 
 ## Your task
 
-Validate and critique: $ARGUMENTS
+Get Codex to validate and critique: $ARGUMENTS
 
-If no arguments are provided, look at the current staged changes (`git diff --cached`) or unstaged changes (`git diff`).
+## How to run
 
-## How to respond
+1. **Build the prompt** based on what needs reviewing. Include context about what to validate.
+2. **Run Codex non-interactively** using `codex exec` with full permissions:
 
-1. **Read the code, comments, or context** provided in the arguments
-2. **Verify every claim** against the actual source code - read the files, check line numbers, confirm behavior
-3. **Be critical** - assume nothing is correct until you verify it
-4. **Give a clear verdict** for each item reviewed
+```bash
+codex exec --dangerously-bypass-approvals-and-sandbox -m o3 -o /tmp/codex-output.md "YOUR PROMPT HERE"
+```
 
-## What you validate
+### For validating PR comments or review notes:
 
-- **PR comments/reviews**: Are the technical claims accurate? Are line references correct? Is the suggestion actionable? Is it worth posting or nitpicky/wrong?
-- **Code changes**: Are there bugs, edge cases, or issues the author missed? Does it actually do what it claims?
-- **Technical decisions**: Is the reasoning sound? Are there better alternatives? What are the tradeoffs?
-- **Implementation plans**: Is the approach feasible? What could go wrong? What's missing?
+```bash
+codex exec --dangerously-bypass-approvals-and-sandbox -m o3 -o /tmp/codex-output.md "You are an independent code reviewer. Read the file FILEPATH and the source files it references. For each comment, verify the technical claims against the actual code - check line references, check assumptions, confirm behavior. Give a verdict for each: VALID, PARTIALLY VALID, or INVALID with a brief explanation. End with a summary table."
+```
 
-## Rules
+### For reviewing code changes:
 
-1. **Always read the actual source code** before passing judgment. Don't trust summaries.
-2. **Check line references** - if a comment says "line 47", verify that's actually the right line.
-3. **Check assumptions** - if a comment assumes something about the code, verify it's true.
-4. **Be specific** - don't just say "looks good". Explain what you checked and why it's valid or not.
-5. **Flag inaccuracies** - if something is wrong or misleading, say so directly.
+```bash
+codex exec --dangerously-bypass-approvals-and-sandbox -m o3 -o /tmp/codex-output.md "Review the current git diff. Check for bugs, edge cases, missed issues, and whether the code does what it claims. Be critical and specific."
+```
 
-## Response format
+### For validating technical decisions:
 
-For each item reviewed, give:
+```bash
+codex exec --dangerously-bypass-approvals-and-sandbox -m o3 -o /tmp/codex-output.md "Read FILEPATH and evaluate the technical approach. Is the reasoning sound? Are there better alternatives? What are the tradeoffs? What could go wrong?"
+```
 
-**Verdict**: VALID, PARTIALLY VALID, or INVALID
+## Options
 
-**Why**: Brief explanation of what you checked and what you found.
+- Use `-m o3` for the strongest reasoning (default)
+- Use `-m o4-mini` for faster responses
+- Use `-o /tmp/codex-output.md` to save output to a file
+- Always use `--dangerously-bypass-approvals-and-sandbox` so it runs without interruption
 
-If reviewing multiple items, end with a summary table:
+## After Codex responds
 
-| # | Item | Verdict | Issue (if any) |
-|---|------|---------|----------------|
-
-End with a **Recommendation** - what to keep, what to fix, what to drop.
+Read the output from `/tmp/codex-output.md` and summarize the findings for the user. If Codex found issues with PR comments or code, help the user decide what to fix, update, or drop.

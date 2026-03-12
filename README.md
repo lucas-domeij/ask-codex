@@ -1,23 +1,22 @@
 # ask-codex
 
-A [Claude Code skill](https://docs.anthropic.com/en/docs/claude-code/skills) that gives you an independent second opinion on code, PR comments, technical decisions, or implementation plans.
+A [Claude Code skill](https://docs.anthropic.com/en/docs/claude-code/skills) that runs the [OpenAI Codex CLI](https://github.com/openai/codex) to get an independent second opinion on code, PR comments, technical decisions, or implementation plans.
 
-Codex reads the actual source files, verifies claims against code, checks line references, and gives a clear VALID / PARTIALLY VALID / INVALID verdict for each item.
+Uses a completely different model (o3) as the reviewer, so you get a genuinely independent perspective - no self-preference bias.
+
+## Prerequisites
+
+- [Codex CLI](https://github.com/openai/codex) installed and authenticated
+- OpenAI API key configured
 
 ## Install
 
 ```bash
 # Global (all projects)
-cp -r ask-codex ~/.claude/skills/
+git clone https://github.com/lucas-domeij/ask-codex.git ~/.claude/skills/ask-codex
 
 # Per-project
-cp -r ask-codex .claude/skills/
-```
-
-Or clone directly:
-
-```bash
-git clone https://github.com/lucas-domeij/ask-codex.git ~/.claude/skills/ask-codex
+git clone https://github.com/lucas-domeij/ask-codex.git .claude/skills/ask-codex
 ```
 
 ## Usage
